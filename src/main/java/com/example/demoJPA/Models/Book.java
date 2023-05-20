@@ -1,9 +1,6 @@
 package com.example.demoJPA.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.UUID;
@@ -17,6 +14,8 @@ public class Book {
     private String ISBN;
     @Enumerated(EnumType.STRING)
     private Genre Genre;
+    @ManyToOne
     private Author Author;
+    @ManyToOne
     private Publisher Publisher;
 }

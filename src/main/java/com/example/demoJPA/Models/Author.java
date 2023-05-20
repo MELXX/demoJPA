@@ -1,9 +1,6 @@
 package com.example.demoJPA.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
@@ -17,6 +14,7 @@ public class Author {
     private UUID Id;
     private String FirstName;
     private String LastName;
+    @OneToMany
     private List<Book> Books;
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;

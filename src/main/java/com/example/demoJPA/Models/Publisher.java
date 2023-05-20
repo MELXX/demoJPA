@@ -2,6 +2,7 @@ package com.example.demoJPA.Models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 import java.util.List;
@@ -13,5 +14,6 @@ public class Publisher {
     @Id
     private UUID Id;
     private String Name;
+    @OneToMany
     private List<Book> Books;
 }
