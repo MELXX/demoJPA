@@ -4,18 +4,19 @@ CREATE TABLE Author (
 	LastName VARCHAR ( 50 ) NOT NULL,
 	DateOfBirth TIMESTAMP NOT NULL
 );
-
+CREATE TABLE Publisher (
+	Id uuid PRIMARY KEY,
+	Name VARCHAR ( 50 ) NOT NULL
+);
 CREATE TABLE Book (
 	Id uuid PRIMARY KEY,
 	Title VARCHAR ( 50 ) NOT NULL,
 	ISBN VARCHAR ( 50 ) NOT NULL,
 	Genre VARCHAR ( 15 ) NOT NULL,
 	YearPublished TIMESTAMP NOT NULL,
-	CONSTRAINT fk_author FOREIGN KEY(author_id) REFERENCES Author(Id),
-    CONSTRAINT fk_publisher FOREIGN KEY(publisher_id) REFERENCES Publisher(Id),
+	Author_Id uuid,
+	Publisher_Id uuid,
+	CONSTRAINT fk_author FOREIGN KEY(Author_Id) REFERENCES Author(Id),
+    CONSTRAINT fk_publisher FOREIGN KEY(Publisher_Id) REFERENCES Publisher(Id)
 );
 
-CREATE TABLE Publisher (
-	Id uuid PRIMARY KEY,
-	Name VARCHAR ( 50 ) NOT NULL
-);
