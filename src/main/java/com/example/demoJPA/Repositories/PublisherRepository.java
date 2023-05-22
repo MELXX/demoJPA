@@ -69,8 +69,7 @@ public class PublisherRepository implements CrudRepository<Publisher, UUID> {
 
     @Override
     public long count() {
-        return this.jdbcTemplate.queryForObject(
-                "select count(*) from public.Publisher", Long.class);
+        return this.jdbcTemplate.queryForObject("select count(*) from public.Publisher", Long.class);
     }
 
     @Override
