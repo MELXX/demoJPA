@@ -16,4 +16,9 @@ public class Publisher {
     private String Name;
     @OneToMany
     private List<Book> Books;
+
+    public Publisher(){}
+    public Publisher(String name){
+        Name=name;
+    }
 }
