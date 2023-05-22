@@ -1,15 +1,17 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE Author (
-	Id uuid PRIMARY KEY,
+	Id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
 	FirstName VARCHAR ( 50 ) NOT NULL,
 	LastName VARCHAR ( 50 ) NOT NULL,
 	DateOfBirth TIMESTAMP NOT NULL
 );
 CREATE TABLE Publisher (
-	Id uuid PRIMARY KEY,
+	Id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
 	Name VARCHAR ( 50 ) NOT NULL
 );
 CREATE TABLE Book (
-	Id uuid PRIMARY KEY,
+	Id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
 	Title VARCHAR ( 50 ) NOT NULL,
 	ISBN VARCHAR ( 50 ) NOT NULL,
 	Genre VARCHAR ( 15 ) NOT NULL,
