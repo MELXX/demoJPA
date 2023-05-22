@@ -17,5 +17,5 @@ public class Author {
     @OneToMany
     private List<Book> Books;
     @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+    private Date DateOfBirth;
 }
