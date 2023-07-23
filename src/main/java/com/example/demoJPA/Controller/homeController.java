@@ -19,7 +19,8 @@ public class homeController {
 
     @PostMapping("/Login")
     public String Login(String password,String email){
-        return "Hello";
+        ;
+        return userRepository.Login(email,password)?"Can log in":"nahh bruv";
     }
 
 }

@@ -1,11 +1,16 @@
 package com.example.demoJPA.Repositories;
 
 import com.example.demoJPA.Models.User;
+import com.example.demoJPA.RowMappers.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,8 +29,9 @@ public class UserRepository implements CrudRepository<User, UUID> {
         return null;
     }
 
-    @Override
+    @Override//https://sec.okta.com/articles/2020/12/sql-injection-java-practices-avoid
     public Optional<User> findById(UUID uuid) {
+
         return Optional.empty();
     }
 
@@ -72,5 +78,12 @@ public class UserRepository implements CrudRepository<User, UUID> {
     @Override
     public void deleteAll() {
 
+    }
+
+    public boolean Login(String email,String hash){
+
+        var sql = "select * from public.AppUser where email='"+email+"' and hash='"+hash+"'";
+        //var stmt = jdbcTemplate.
+        return (long) jdbcTemplate.query(sql, new UserRowMapper()).size() > 0;
     }
 }
