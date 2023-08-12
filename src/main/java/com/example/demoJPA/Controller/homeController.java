@@ -1,5 +1,6 @@
 package com.example.demoJPA.Controller;
 
+import com.example.demoJPA.Configuration.EmailSender;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import java.io.IOException;
 @RestController("/api/")
 public class homeController {
 
+    @Autowired
+    EmailSender sender;
 
     @GetMapping("/hello")
     public String Test(){
@@ -30,6 +33,12 @@ public class homeController {
         for(Row row : db) {
             System.out.println("Column 'a' has value: " + row.get("Type"));
         }
+        return "";
+    }
+
+    @GetMapping("/testEmail")
+    public String email(String addr) throws IOException {
+        sender.SendEmail("password reset","you have forgotten your recycle SA password",addr);
         return "";
     }
 
