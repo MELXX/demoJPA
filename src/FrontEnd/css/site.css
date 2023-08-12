@@ -41,3 +41,9 @@
     display: table;
     clear: both;
   }
+
+  #form-error{
+    color:red;
+    font-weight: 800;
+    display: none;
+  }

@@ -20,9 +20,10 @@
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label txt">Password</label>
                 <input type="password" class="form-control" id="password">
+                <span id="form-error">Incorrect credentials</span>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-success" onclick="Login()">Login</button>
+                <button type="submit" class="btn btn-success" onclick="Login(event)">Login</button>
                 <h3>If you do not have an existing account</h3>
                 <a href="./signup.html" class="btn btn-outline-dark txt">Create account</a>
                 <a href="./recovery1.html" class="txt">Forgot your password?</a>
@@ -43,18 +44,29 @@
         crossorigin="anonymous"></script>
     <script>
 
-        function Login() {
+        async function Login(e) {
             //      var email = document.getElementById(email).innerText;
             //console.log(email);
             const url = `http://localhost:8080/api/Login?password=${document.getElementById("password").value}&email=${document.getElementById("email").value}`;
-            fetch(url, {
-                method: "POST",
+            const response = await fetch(url, {
+                method: "GET",
+            });
 
-            }).then((response) => {
-                return response.text();
-            }).then((data) => { alert(data)});
+            if (response.ok) {
+                response.text().then(x=>{
+                console.log(x);
+                localStorage.setItem('RecycleSAsessionToken', x)
+                })
+                
+                window.location.href = "homepage.html"
+            } else {
+                var x = document.getElementById("form-error");
+                x.style.display = "block";
+
+            }
+            e.preventDefault();
+
         }
-
     </script>
 </body>
 

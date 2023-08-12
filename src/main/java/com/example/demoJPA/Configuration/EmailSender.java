@@ -14,20 +14,11 @@ public class EmailSender {
     public Boolean SendEmail(String subject,String body,String addr){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject(subject);
+        //change this
         message.setFrom("melusimgwenya@gmail.com");
         message.setTo(addr);
         message.setText(body);
         javaMailSender.send(message);
         return true;
-    }
-
-    private JavaMailSender getMailSender(){
-        var impl = new JavaMailSenderImpl();
-        impl.setHost("smtp.gmail.com");
-        impl.setPassword("yiofiebaigenuovz");
-        impl.setUsername("melusimgwenya@gmail.com");
-        impl.setPort(465);
-        impl.setProtocol("SSL");
-        return impl;
     }
 }
