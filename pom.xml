@@ -80,6 +80,13 @@
 			<artifactId>flyway-core</artifactId>
 			<version>9.8.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jackcess</groupId>
+			<artifactId>jackcess</artifactId>
+			<version>4.0.5</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/resources/lib/jackcess-4.0.5.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
