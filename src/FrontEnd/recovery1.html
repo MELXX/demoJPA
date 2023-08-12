@@ -36,12 +36,15 @@
     crossorigin="anonymous"></script>
   <script>
     function sendMail() {
-      const url = `http://localhost:8080/api/testEmail?addr=${document.getElementById("email").value}`;
+      const url = `http://localhost:8080/api/recoverEmail?addr=${document.getElementById("email").value}`;
             fetch(url, {
                 method: "GET",
 
             }).then((response) => {
-                return response.text();
+                if(response.ok){
+                  alert("check your email for the recovery link");
+                  window.location.href = "homepage.html"
+                }
             }).then((data) => { alert(data)});
     }
   </script>

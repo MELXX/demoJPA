@@ -115,9 +115,12 @@
           });
 
           if (response.ok) {
-            //const responseData = await response.json();
-            //console.log("Signup successful:", responseData);
-          } else {
+            alert("success")
+            window.location.href = "login.html"
+          } else if (response.status == 409) {
+            alert("a user with this email has already registered");
+            
+          }else{
             console.error("Signup failed:", response.status, response.statusText);
           }
         } catch (error) {

@@ -1,5 +1,6 @@
 package com.example.demoJPA.Configuration;
 
+import com.example.demoJPA.Models.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import com.healthmarketscience.jackcess.*;
@@ -56,7 +57,7 @@ public class AccessDataSource {
             Table table = db.getTable("tblUsers");
 
             // Create a new row
-            table.addRow(Column.AUTO_NUMBER,userName,userSName,emailAddress,phoneNumber,dob,password);
+            var d = table.addRow(Column.AUTO_NUMBER,userName,userSName,emailAddress,phoneNumber,dob,password);
 
             // Save the changes
             db.flush();
@@ -68,5 +69,64 @@ public class AccessDataSource {
         }
     }
 
+    public User findUser(String emailToSearch){
+        String tableName = "tblUsers"; // Replace with the actual table name
+
+         User user = null;
+        try {
+            // Open the Access database
+            Database db = DatabaseBuilder.open(new File(databasePath));
+            // Get the table
+            Table table = db.getTable(tableName);
+
+
+            // Search for the record with the matching email
+            for (Row row : table) {
+                String email = row.getString("EmailAddress");
+                String name = row.getString("UserName");
+                if (    email != null
+                        && email.equalsIgnoreCase(emailToSearch)) {
+                    user = new User();
+                    user.setEmail(emailToSearch);
+                    user.setName(name);
+                    break; // Assuming there's only one record with the matching email
+                }
+            }
+
+            // Close the database
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return user;
+    }
+
+    public void changePasswordByEmail(String email, String newPassword) throws Exception{
+
+            // Open the Access database
+            Database db = DatabaseBuilder.open(new File(databasePath));
+
+            // Get the table
+            Table table = db.getTable("tblUsers");
+
+            // Iterate through the rows and find the row with the matching email
+            for (Row row : table) {
+                String emailAddress = row.getString("EmailAddress");
+                if (emailAddress != null && emailAddress.equalsIgnoreCase(email)) {
+                    // Update the password field
+                    row.put("Password", newPassword);
+                    table.updateRow(row);
+
+                    break; // Assuming there's only one record with the matching email
+                }
+            }
+
+            // Save the changes
+            db.flush();
+
+            // Close the database
+            db.close();
+    }
 }
 

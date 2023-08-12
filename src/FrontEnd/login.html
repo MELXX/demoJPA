@@ -45,20 +45,24 @@
     <script>
 
         async function Login(e) {
-            //      var email = document.getElementById(email).innerText;
-            //console.log(email);
-            const url = `http://localhost:8080/api/Login?password=${document.getElementById("password").value}&email=${document.getElementById("email").value}`;
+            const url = `http://localhost:8080/api/Login`;
             const response = await fetch(url, {
-                method: "GET",
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "email": document.getElementById("email").value,
+                "password": document.getElementById("password").value
+            })
             });
-
             if (response.ok) {
-                response.text().then(x=>{
-                console.log(x);
-                localStorage.setItem('RecycleSAsessionToken', x)
+                response.text().then(x => {
+                    localStorage.setItem('RecycleSAsessionToken', x)
+                }).finally(()=>{
+                    window.location.href = "homepage.html"
                 })
-                
-                window.location.href = "homepage.html"
+
             } else {
                 var x = document.getElementById("form-error");
                 x.style.display = "block";

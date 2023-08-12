@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link href="./css/site.css" rel="stylesheet">
 </head>
+
 <body class="greenBg">
-<div class="container center-items">
+  <div class="container center-items">
     <h1 class="txt">Recovery</h1>
     <form>
       <div class="mb-3">
@@ -22,15 +25,43 @@
         <label for="exampleFormControlInput1" class="form-label txt">Confirm Password</label>
         <input type="password" class="form-control" id="confirmpassword">
       </div>
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-success">Submit</button>
-          </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
     </form>
-</div>
+  </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+    integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+    crossorigin="anonymous"></script>
+  <script>
+    async function send() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get('tkn');
+      if (myParam != null) {
+        const url = `http://localhost:8080/api/recoverEmail?tkn=${myParam}&email=${document.getElementById("email").value}&password=${document.getElementById("password").value}`;
+        const response = await fetch(url, {
+          method: "GET",
+        });
+
+        if (response.ok) {
+          alert("password recovery successful")
+
+          window.location.href = "login.html"
+        } else {
+          alert("please generate a new link or try again")
+        }
+      }
+      e.preventDefault();
+    }
+  </script>
 </body>
+
 </html>
