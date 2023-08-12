@@ -3,6 +3,7 @@ package com.example.demoJPA.Controller;
 import com.example.demoJPA.Configuration.AccessDataSource;
 import com.example.demoJPA.Configuration.EmailSender;
 import com.example.demoJPA.Configuration.SessionCreator;
+import com.example.demoJPA.Models.User;
 import com.example.demoJPA.Models.token;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,13 @@ public class homeController {
 
         boolean result = SessionCreator.checkSession(token.token);
         return new ResponseEntity<>(result?HttpStatus.BAD_REQUEST:HttpStatus.OK);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody User user) throws IOException {
+
+        ds.insertUserRow(user.getName(), user.getName(),
+                user.getEmail(), user.getPhonenumber(), user.getDob(), user.getPasswordHash());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

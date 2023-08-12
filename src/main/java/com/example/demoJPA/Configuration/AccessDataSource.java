@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.healthmarketscience.jackcess.*;
 
 import java.io.File;
+import java.util.Date;
 
 @Component
 public class AccessDataSource {
@@ -44,6 +45,27 @@ public class AccessDataSource {
 
         }
         return isFound;
+    }
+
+    public void insertUserRow(String userName, String userSName, String emailAddress, String phoneNumber, Date dob, String password) {
+        try {
+            // Open the Access database
+            Database db = DatabaseBuilder.open(new File(databasePath));
+
+            // Get the table
+            Table table = db.getTable("tblUsers");
+
+            // Create a new row
+            table.addRow(Column.AUTO_NUMBER,userName,userSName,emailAddress,phoneNumber,dob,password);
+
+            // Save the changes
+            db.flush();
+
+            // Close the database
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
