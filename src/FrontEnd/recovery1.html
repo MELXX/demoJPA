@@ -19,7 +19,7 @@
         <input type="email" class="form-control" id="email" placeholder="name@example.com">
       </div>
       <div class="d-grid gap-2">
-        <button class="btn btn-success" onclick="sendMail()">Submit</button>
+        <button class="btn btn-success" onclick="sendMail(event)">Submit</button>
       </div>
     </form>
   </div>
@@ -35,17 +35,19 @@
     integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
     crossorigin="anonymous"></script>
   <script>
-    function sendMail() {
+    function sendMail(e) {
       const url = `http://localhost:8080/api/recoverEmail?addr=${document.getElementById("email").value}`;
             fetch(url, {
                 method: "GET",
 
             }).then((response) => {
                 if(response.ok){
+                 
                   alert("check your email for the recovery link");
                   window.location.href = "homepage.html"
                 }
-            }).then((data) => { alert(data)});
+            });
+            e.preventDefault();
     }
   </script>
 </body>

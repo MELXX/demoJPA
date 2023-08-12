@@ -50,28 +50,29 @@ public class homeController {
     }
 
     @GetMapping("/recoverEmail")
-    public String email(String addr) throws Exception {
+    public ResponseEntity<?> email(String addr) throws Exception {
         //get de user
         var u = ds.findUser(addr);
         if(u!=null){
             //create reset email
             var token = SessionCreator.createSession();
-            String s = "http://localhost:8080/api/reset?tkn="+token;
+            String s = "http://localhost:5500/recovery.html?tkn="+token;
 
             sender.SendEmail("password reset",   "hello, "+u.getName()+ " you have forgotten your recycle SA password visit this link to reset your password: "+s,u.getEmail());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return "";
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/reset")
-    public ResponseEntity<?> reset(String tkn,String addr,String newPassword)  {
+    @PostMapping("/reset")
+    public ResponseEntity<?> reset(@RequestBody LoginModel loginModel)  {
         //get de user
-        var u = ds.findUser(addr);
+        var u = ds.findUser(loginModel.getEmail());
         if(u!=null){
             //create reset email
-            if(SessionCreator.checkSession(tkn)){
+            if(SessionCreator.checkSession(loginModel.getTkn())){
                 try {
-                    ds.changePasswordByEmail(addr,newPassword);
+                    ds.changePasswordByEmail(loginModel.getEmail(),loginModel.getPassword());
                     sender.SendEmail("password reset",   "hello, "+u.getName()+ "your password was reset on: "+new Date(),u.getEmail());
 
                     return new ResponseEntity<>(HttpStatus.OK);

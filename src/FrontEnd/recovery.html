@@ -14,19 +14,20 @@
     <h1 class="txt">Recovery</h1>
     <form>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label txt">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        <label for="email" class="form-label txt">Email address</label>
+        <input required type="email" class="form-control" id="email" placeholder="name@example.com">
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label txt">Password</label>
-        <input type="password" class="form-control" id="password">
+        <label for="password" class="form-label txt">Password</label>
+        <input required type="password" class="form-control" id="password">
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label txt">Confirm Password</label>
-        <input type="password" class="form-control" id="confirmpassword">
+        <label for="confirmpassword" class="form-label txt">Confirm Password</label>
+        <input required type="password" class="form-control" id="confirmpassword">
+        <p id="form-error">Passwords do not match</p>
       </div>
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button onclick="send(event)" class="btn btn-success">Submit</button>
       </div>
     </form>
   </div>
@@ -42,22 +43,44 @@
     integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
     crossorigin="anonymous"></script>
   <script>
-    async function send() {
+    async function send(e) {
       const urlParams = new URLSearchParams(window.location.search);
       const myParam = urlParams.get('tkn');
       if (myParam != null) {
-        const url = `http://localhost:8080/api/recoverEmail?tkn=${myParam}&email=${document.getElementById("email").value}&password=${document.getElementById("password").value}`;
-        const response = await fetch(url, {
-          method: "GET",
-        });
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("confirmpassword");
+        var x = document.getElementById("form-error");
+        if (passwordInput.value !== confirmPasswordInput.value) {
 
-        if (response.ok) {
-          alert("password recovery successful")
-
-          window.location.href = "login.html"
+          x.style.display = "block";
+          e.preventDefault();
+          return;
         } else {
-          alert("please generate a new link or try again")
+          x.style.display = "hidden";
+          const url = `http://localhost:8080/api/recoverEmail`
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              "tkn": myParam, "email": document.getElementById("email").value,
+              "password": document.getElementById("password").value
+            })
+          });
+
+          if (response.ok) {
+            alert("password recovery successful")
+
+            window.location.href = "login.html"
+          } else {
+            alert("please generate a new link or try again")
+            e.preventDefault();
+
+          }
         }
+
       }
       e.preventDefault();
     }
