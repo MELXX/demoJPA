@@ -1,12 +1,15 @@
 package com.example.demoJPA.Configuration;
 
+import com.example.demoJPA.Models.RecyclingFacts;
 import com.example.demoJPA.Models.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import com.healthmarketscience.jackcess.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 @Component
 public class AccessDataSource {
@@ -127,6 +130,42 @@ public class AccessDataSource {
 
             // Close the database
             db.close();
+    }
+
+    public ArrayList<RecyclingFacts> getRandomRows(int number) {
+        ArrayList<RecyclingFacts> randomRows = new ArrayList<>();
+        try {
+            // Open the Access database
+            Database db = DatabaseBuilder.open(new File(databasePath));
+
+            // Get the table
+            Table table = db.getTable("tblFacts");
+
+
+            // Get the total number of rows in the table
+            int totalRows = table.getRowCount();
+
+            // Use a random number generator
+            Random random = new Random();
+
+            // Retrieve random rows
+            for (int i = 0; i < number; i++) {
+                // Generate a random row index
+                int randomRowIndex = random.nextInt(totalRows);
+
+                // Fetch the random row
+                Row r = CursorBuilder.findRowByPrimaryKey(table,randomRowIndex);
+                var temp = new RecyclingFacts();
+                temp.setDescription(r.getString("Fact"));
+                randomRows.add(temp);
+            }
+
+            // Close the database
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return randomRows;
     }
 }
 

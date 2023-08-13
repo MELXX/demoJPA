@@ -4,6 +4,7 @@ import com.example.demoJPA.Configuration.AccessDataSource;
 import com.example.demoJPA.Configuration.EmailSender;
 import com.example.demoJPA.Configuration.SessionCreator;
 import com.example.demoJPA.Models.LoginModel;
+import com.example.demoJPA.Models.RecyclingFacts;
 import com.example.demoJPA.Models.User;
 import com.example.demoJPA.Models.token;
 import lombok.SneakyThrows;
@@ -19,6 +20,7 @@ import com.healthmarketscience.jackcess.*;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -34,6 +36,11 @@ public class homeController {
     @GetMapping("/hello")
     public String Test(){
         return "Hello";
+    }
+
+    @GetMapping("/facts")
+    public ResponseEntity<ArrayList<RecyclingFacts>> fax(){
+        return new ResponseEntity<>(ds.getRandomRows(10),HttpStatus.OK);
     }
 
 
@@ -80,10 +87,7 @@ public class homeController {
 
                 }
             };
-           // String s = "http://localhost:8080/api/reset?token="+token;
-
-           // sender.SendEmail("password reset",   "hello, "+u.getName()+ " you have forgotten your recycle SA password visit this link to reset your password: "+s,u.getEmail());
-        }
+                   }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
