@@ -6,6 +6,6 @@ import java.util.UUID;
 
 @Data
 public class Methods {
-    private UUID Id;
+    private String Difficulty;
     private String Description;
 }

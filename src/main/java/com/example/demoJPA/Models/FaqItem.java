@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Data
 public class FaqItem {
-    private UUID Id;
+    //private UUID Id;
     private String Topic;
     private String Description;
 }

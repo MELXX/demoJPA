@@ -6,6 +6,7 @@ import com.example.demoJPA.Configuration.SessionCreator;
 import com.example.demoJPA.Models.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,8 @@ public class homeController {
 
     @Autowired
     AccessDataSource ds;
+    @Value("${frontend.path}")
+    private String frontendUrl;
 
     @GetMapping("/hello")
     public String Test(){
@@ -60,7 +63,7 @@ public class homeController {
         if(u!=null){
             //create reset email
             var token = SessionCreator.createSession();
-            String s = "http://localhost:5500/recovery.html?tkn="+token;
+            String s = frontendUrl+"recovery.html?tkn="+token;
 
             sender.SendEmail("password reset",   "hello, "+u.getName()+ " you have forgotten your recycle SA password visit this link to reset your password: "+s,u.getEmail());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -118,5 +121,35 @@ public class homeController {
     public ResponseEntity<ArrayList<RecyclingPlant>> centers() {
 
         return new ResponseEntity<>(ds.getRecyclingPlants(),HttpStatus.OK);
+    }
+
+    @GetMapping("/faqItems")
+    public ResponseEntity<ArrayList<FaqItem>> faqItems() {
+
+        return new ResponseEntity<>(ds.getFaqData(),HttpStatus.OK);
+    }
+
+    @GetMapping("/faqSearch")
+    public ResponseEntity<String> faqSearch(String s) {
+
+        return new ResponseEntity<>(ds.searchFaqData(s),HttpStatus.OK);
+    }
+
+    @GetMapping("/methods")
+    public ResponseEntity<ArrayList<Methods>> methods() {
+
+        return new ResponseEntity<>(ds.getMethodData(),HttpStatus.OK);
+    }
+
+    @GetMapping("/userData")
+    public ResponseEntity<ArrayList<Methods>> methods() {
+
+        return new ResponseEntity<>(ds.getMethodData(),HttpStatus.OK);
+    }
+
+    @GetMapping("/userFootprint")
+    public ResponseEntity<String> methods(String email) {
+
+        return new ResponseEntity<>("yellow",HttpStatus.OK);
     }
 }

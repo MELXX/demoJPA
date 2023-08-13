@@ -47,3 +47,18 @@
     font-weight: 800;
     display: none;
   }
+
+  .faqBanner{
+    margin-top: 20px;
+    background-color: darkgreen;
+    color: white;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  p.faqItem{
+    margin: auto;
+    color: darkgreen;
+    border: 10 solid #98FB98 ;
+    display: block;
+  }
