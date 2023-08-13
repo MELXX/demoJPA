@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="./css/site.css" rel="stylesheet">
+    <script src="./js/tokenvalidator.js"></script>
+</head>
+
+<body class="">
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./homepage.html">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./methods.html">Methods</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./userDataInput.html">create entry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./centers.html">Recycling Plants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./statistics.html">Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./faq.html">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./index.html" onclick="logout()">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container" id="centersDiv">
+
+        <h1 class="faqBanner">HELP TAB</h1>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-success" type="button" id="searchButton">Search</button>
+            </div>
+            <input type="text" class="form-control border-success" placeholder="" id="searchInput" aria-label=""
+                aria-describedby="basic-addon1">
+        </div>
+        
+        <div style="display: none;" class="card border-success" id="searchResult">
+            <div class="card-body">
+                <p class="card-text" id="description">
+                    <!-- Description will be populated here -->
+                </p>
+            </div>
+        </div>
+        <h1 class="faqBanner">common questions and answers</h1>
+        <div id="faqItems">
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+        crossorigin="anonymous"></script>
+    <!-- Your HTML template -->
+
+    <script>
+        // Function to create a card for each FAQ item
+        function createFaqCard(item) {
+            const card = document.createElement("div");
+            card.className = "card border-success";
+            card.style.marginTop="10px";
+            const cardBody = document.createElement("div");
+            cardBody.className = "card-body";
+
+            const topic = document.createElement("p");
+            topic.textContent = item.topic;
+            topic.style.fontWeight = "900";
+            cardBody.appendChild(topic);
+
+            const description = document.createElement("p");
+            description.className = "card-text";
+            description.textContent = item.description;
+            cardBody.appendChild(description);
+
+            card.appendChild(cardBody);
+            return card;
+        }
+
+        // Function to populate the faqItems div with FAQ cards
+        function populateFaqItems(data) {
+            const faqItemsDiv = document.getElementById("faqItems");
+            data.forEach(item => {
+                const card = createFaqCard(item);
+                faqItemsDiv.appendChild(card);
+            });
+        }
+
+        // Fetch data from http://localhost:8080/api/faqItems
+        fetch("http://localhost:8080/api/faqItems")
+            .then(response => response.json())
+            .then(data => {
+                // Assuming the fetched data is an array of FAQ items
+                populateFaqItems(data);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    </script>
+    <script>
+        // Function to update the search result with the provided description
+        function updateSearchResult(description) {
+            const searchResultDiv = document.getElementById("searchResult");
+            const descriptionElement = document.getElementById("description");
+            
+            // Set the description content
+            descriptionElement.textContent = description;
+            
+            // Show the search result div
+            searchResultDiv.style.display = "block";
+        }
+        
+        // Function to handle the search button click
+        function handleSearchButtonClick() {
+            const searchTerm = document.getElementById("searchInput").value;
+            const searchResultDiv = document.getElementById("searchResult");
+            
+            // Fetch data from http://localhost:8080/api/faqSearch with the search term
+            fetch(`http://localhost:8080/api/faqSearch?s=${searchTerm}`)
+                .then(response => response.text())
+                .then(data => {
+                    // Update the search result with the returned description
+                    updateSearchResult(data);
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    // Hide the search result div in case of an error
+                    searchResultDiv.style.display = "none";
+                });
+        }
+        
+        // Add event listener for the search button click
+        document.getElementById("searchButton").addEventListener("click", handleSearchButtonClick);
+        </script>
+
+
+</body>
+
+</html>
