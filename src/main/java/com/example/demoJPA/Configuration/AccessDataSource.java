@@ -1,6 +1,8 @@
 package com.example.demoJPA.Configuration;
 
+import com.example.demoJPA.Models.Materialtype;
 import com.example.demoJPA.Models.RecyclingFacts;
+import com.example.demoJPA.Models.RecyclingPlant;
 import com.example.demoJPA.Models.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -157,6 +159,49 @@ public class AccessDataSource {
                 Row r = CursorBuilder.findRowByPrimaryKey(table,randomRowIndex);
                 var temp = new RecyclingFacts();
                 temp.setDescription(r.getString("Fact"));
+                randomRows.add(temp);
+            }
+
+            // Close the database
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return randomRows;
+    }
+
+    public ArrayList<RecyclingPlant> getRecyclingPlants() {
+        ArrayList<RecyclingPlant> randomRows = new ArrayList<>();
+        try {
+            // Open the Access database
+            Database db = DatabaseBuilder.open(new File(databasePath));
+
+            // Get the table
+            Table table = db.getTable("tblRecyclingPlants");
+
+
+            // Get the total number of rows in the table
+            int totalRows = table.getRowCount();
+
+            // Use a random number generator
+            Random random = new Random();
+
+            // Retrieve random rows
+            for (int i = 0; i < 3; i++) {
+                // Generate a random row index
+
+
+                // Fetch the random row
+                Row r = table.getNextRow();
+                var temp = new RecyclingPlant();
+                temp.setName(r.getString("RecyclingPlantName"));
+                temp.setAddress(r.getString("Address"));
+                temp.setOperatingHours(r.getString("OperatingHours"));
+                //temp.setMaterialtype((Materialtype) r.getInt("Website"));
+                temp.setSite(r.getString("Website"));
+                temp.setEmail(r.getString("EmailAdd"));
+                temp.setContact(r.getString("ContactDetails"));
+                temp.setMapsFrame(r.getString("GoogleMapsUrl"));
                 randomRows.add(temp);
             }
 

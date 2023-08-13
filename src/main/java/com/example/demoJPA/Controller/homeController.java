@@ -3,10 +3,7 @@ package com.example.demoJPA.Controller;
 import com.example.demoJPA.Configuration.AccessDataSource;
 import com.example.demoJPA.Configuration.EmailSender;
 import com.example.demoJPA.Configuration.SessionCreator;
-import com.example.demoJPA.Models.LoginModel;
-import com.example.demoJPA.Models.RecyclingFacts;
-import com.example.demoJPA.Models.User;
-import com.example.demoJPA.Models.token;
+import com.example.demoJPA.Models.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -115,5 +112,11 @@ public class homeController {
         ds.insertUserRow(user.getName(), user.getName(),
                 user.getEmail(), user.getPhonenumber(), user.getDob(), user.getPasswordHash());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/centers")
+    public ResponseEntity<ArrayList<RecyclingPlant>> centers() {
+
+        return new ResponseEntity<>(ds.getRecyclingPlants(),HttpStatus.OK);
     }
 }
