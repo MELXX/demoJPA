@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 public class User {
-    private UUID Id;
+    private String Id;
     private String Name;
     private String Surname;
     private String Phonenumber;

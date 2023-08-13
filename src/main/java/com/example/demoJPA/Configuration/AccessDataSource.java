@@ -3,6 +3,7 @@ package com.example.demoJPA.Configuration;
 import com.example.demoJPA.Models.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.expression.spel.ast.ValueRef;
 import org.springframework.stereotype.Component;
 import com.healthmarketscience.jackcess.*;
 
@@ -92,6 +93,7 @@ public class AccessDataSource {
                 if (email != null
                         && email.equalsIgnoreCase(emailToSearch)) {
                     user = new User();
+                    user.setId(row.getInt("UserID").toString());
                     user.setEmail(emailToSearch);
                     user.setName(name);
                     break; // Assuming there's only one record with the matching email
@@ -296,7 +298,7 @@ public class AccessDataSource {
         return  lst;
     }
 
-    public ArrayList<Transaction> getTransactionData() {
+    public ArrayList<Transaction> getTransactionData(String id) throws NullPointerException {
         ArrayList<Transaction> lst = new ArrayList<Transaction>();
         try {
             // Open the Access database
@@ -305,11 +307,14 @@ public class AccessDataSource {
 
             int i =0;
             for (Row row : table) {
-                var temp = new Transaction();
-                temp.setDate(row.getLocalDateTime("Difficulty"));
-                temp.setMaterial(convert(row.getInt("MaterialID")));
-                temp.setQuantity(row.getInt("Quantity"));
-                lst.add(temp);
+                String rowId = row.getString("UserID");
+                if(rowId!=null&& rowId.equals(id)) {
+                    var temp = new Transaction();
+                    temp.setDate(row.getLocalDateTime("TransDate"));
+                    temp.setMaterial(convert(Integer.parseInt(row.getString("MaterialID"))));
+                    temp.setQuantity(row.getInt("Quantity"));
+                    lst.add(temp);
+                }
             }
             // Close the database
             db.close();

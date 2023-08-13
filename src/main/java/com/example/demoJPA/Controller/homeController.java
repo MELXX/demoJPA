@@ -19,6 +19,7 @@ import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 
@@ -142,13 +143,14 @@ public class homeController {
     }
 
     @GetMapping("/userData")
-    public ResponseEntity<ArrayList<Methods>> methods() {
-
-        return new ResponseEntity<>(ds.getMethodData(),HttpStatus.OK);
+    public ResponseEntity<ArrayList<Transaction>> userData(String email) {
+        var data = ds.getTransactionData(ds.findUser(email).getId());
+        Collections.sort(data);
+        return new ResponseEntity<>(data,HttpStatus.OK);
     }
 
     @GetMapping("/userFootprint")
-    public ResponseEntity<String> methods(String email) {
+    public ResponseEntity<String> userFootprint(String email) {
 
         return new ResponseEntity<>("yellow",HttpStatus.OK);
     }

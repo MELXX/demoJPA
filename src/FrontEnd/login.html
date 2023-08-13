@@ -45,6 +45,7 @@
     <script>
 
         async function Login(e) {
+            localStorage.setItem("userEmail",document.getElementById("email").value)
             const url = `http://localhost:8080/api/Login`;
             const response = await fetch(url, {
                 method: "POST",
