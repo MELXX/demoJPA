@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.expression.spel.ast.ValueRef;
 import org.springframework.stereotype.Component;
 import com.healthmarketscience.jackcess.*;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class AccessDataSource {
 
     //change this
     //@Value("${accessDbPath}")
-    private final String databasePath="C:\\Users\\melusi\\Downloads\\RecycleSA.accdb";
+    private final String databasePath="classpath:db.accdb";
 
     public boolean Login(String password, String emailToSearch) {
 
@@ -27,7 +28,7 @@ public class AccessDataSource {
 
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
             // Get the table
             Table table = db.getTable(tableName);
 
@@ -57,7 +58,7 @@ public class AccessDataSource {
     public void insertUserRow(String userName, String userSName, String emailAddress, String phoneNumber, Date dob, String password) {
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
 
             // Get the table
             Table table = db.getTable("tblUsers");
@@ -81,7 +82,7 @@ public class AccessDataSource {
         User user = null;
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
             // Get the table
             Table table = db.getTable(tableName);
 
@@ -112,7 +113,7 @@ public class AccessDataSource {
     public void changePasswordByEmail(String email, String newPassword) throws Exception {
 
         // Open the Access database
-        Database db = DatabaseBuilder.open(new File(databasePath));
+        Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
 
         // Get the table
         Table table = db.getTable("tblUsers");
@@ -140,7 +141,7 @@ public class AccessDataSource {
         ArrayList<RecyclingFacts> randomRows = new ArrayList<>();
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
 
             // Get the table
             Table table = db.getTable("tblFacts");
@@ -176,7 +177,7 @@ public class AccessDataSource {
         ArrayList<RecyclingPlant> randomRows = new ArrayList<>();
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
 
             // Get the table
             Table table = db.getTable("tblRecyclingPlants");
@@ -221,7 +222,7 @@ public class AccessDataSource {
         ArrayList<FaqItem> randomRows = new ArrayList<>();
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
 
             // Get the table
             Table table = db.getTable("tblFAQs");
@@ -262,7 +263,7 @@ public class AccessDataSource {
         String[] data = null;
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
             Table table = db.getTable("tblFAQs");
              data = new String[table.getRowCount()];
             int i =0;
@@ -282,7 +283,7 @@ public class AccessDataSource {
         ArrayList<Methods> lst = new ArrayList<Methods>();
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
             Table table = db.getTable("tblMethods");
 
             int i =0;
@@ -304,7 +305,7 @@ public class AccessDataSource {
         ArrayList<Transaction> lst = new ArrayList<Transaction>();
         try {
             // Open the Access database
-            Database db = DatabaseBuilder.open(new File(databasePath));
+            Database db = DatabaseBuilder.open(ResourceUtils.getFile(databasePath));
             Table table = db.getTable("tblTransactions");
 
             int i =0;
@@ -342,5 +343,7 @@ public class AccessDataSource {
         }
         return "ERROR";
     }
+
+
 }
 
