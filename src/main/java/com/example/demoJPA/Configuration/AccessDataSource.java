@@ -195,6 +195,7 @@ public class AccessDataSource {
 
                 // Fetch the random row
                 Row r = table.getNextRow();
+                if(r!=null){
                 var temp = new RecyclingPlant();
                 temp.setName(r.getString("RecyclingPlantName"));
                 temp.setAddress(r.getString("Address"));
@@ -205,6 +206,7 @@ public class AccessDataSource {
                 temp.setContact(r.getString("ContactDetails"));
                 temp.setMapsFrame(r.getString("GoogleMapsUrl"));
                 randomRows.add(temp);
+                }
             }
 
             // Close the database

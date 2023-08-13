@@ -26,3 +26,4 @@ target/surefire-reports
 target/maven-status/maven-compiler-plugin/testCompile
 target/maven-status
 target
+src/main/resources/RecycleSA.accdb
