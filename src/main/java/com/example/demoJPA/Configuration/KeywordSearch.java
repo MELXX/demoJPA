@@ -1,8 +1,5 @@
 package com.example.demoJPA.Configuration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class KeywordSearch {
     public static String main(String keyword,String[] articles) {
 

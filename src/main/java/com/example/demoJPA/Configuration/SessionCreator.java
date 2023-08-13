@@ -1,14 +1,13 @@
 package com.example.demoJPA.Configuration;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.UUID;
-import java.security.Key;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
 
 public class SessionCreator {
     private static final String ENCRYPTION_ALGORITHM = "AES";
